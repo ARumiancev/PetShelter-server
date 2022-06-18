@@ -4,7 +4,7 @@ import PostModel, { PostDocument, PostProps } from '../models/post';
 // import ErrorResponseBody from '../types/custom';
 import createPostViewModel, { PostViewModel } from '../view-model-creators/create-post-view-model';
 
-type SingularPostResponse = { post: PostViewModel } | ErrorResponseBody;
+type PostResponseBody = { post: PostViewModel } | ErrorResponseBody;
 
 export const getPosts: RequestHandler<
   unknown,
@@ -59,7 +59,7 @@ export const getPost: RequestHandler<
 
 export const createPost: RequestHandler<
   unknown,
-  SingularPostResponse,
+  PostResponseBody,
   PostProps
 > = async (req, res) => {
   const postProps = req.body;
@@ -76,7 +76,7 @@ export const createPost: RequestHandler<
 
 export const updatePost: RequestHandler<
   { id: string },
-  SingularPostResponse,
+  PostResponseBody,
   Partial<PostProps>
 > = async (req, res) => {
   const { id } = req.params;
@@ -100,7 +100,7 @@ export const updatePost: RequestHandler<
 
 export const deletePost: RequestHandler<
   { id: string },
-  SingularPostResponse
+  PostResponseBody
 > = async (req, res) => {
   const { id } = req.params;
 

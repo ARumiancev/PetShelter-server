@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import authRouther from './routers/auth-router';
 import config from './config';
+import postsRouter from './routers/post-router';
 
 const server = express();
 
@@ -13,7 +14,9 @@ server.use(cors()); // Leidžiame bendrauti su visais.
 server.use(morgan(':method :url :status'));
 server.use(express.static('public'));
 server.use(express.json());
+// Routes
 server.use('/api/auth', authRouther);
+server.use('/api/posts', postsRouter);
 
 mongoose.connect(
   config.db.connectionUrl,
