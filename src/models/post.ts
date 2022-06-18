@@ -5,7 +5,7 @@ import { User } from './user-model';
 
 export type Post = {
   petName: string,
-  author: User,
+  author?: User,
   description: string,
   picURL: string,
   createdAt: string,
@@ -32,7 +32,7 @@ const postSchema: Schema = new Schema<Post, PostModelType>({
   author: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
+    required: false,
   },
   description: {
     type: String,
@@ -41,7 +41,7 @@ const postSchema: Schema = new Schema<Post, PostModelType>({
   picURL: {
     type: String,
     required: true,
-    unique: true,
+    // unique: true,
   },
 }, {
   timestamps: true,
