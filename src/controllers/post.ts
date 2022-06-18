@@ -73,3 +73,27 @@ export const createPost: RequestHandler<
     res.status(400).json({ error: 'Server error' });
   }
 };
+
+export const updatePost: RequestHandler<
+  { id: string },
+  SingularPostResponse,
+  Partial<PostProps>
+> = async (req, res) => {
+  const { id } = req.params;
+  const postProps = req.body;
+
+  try {
+    // const uniqCategoriesIds = await validateCategoriesIds(sculptureProps.categories);
+    // sculptureProps.categories = uniqCategoriesIds;
+    const postDoc = await PostModel.findByIdAndUpdate(id, postProps, { new: true });
+    if (postDoc === null) {
+      throw new Error(`No post with ID'${id}' can be found.`);
+    }
+    const postViewModel = createPostViewModel(postDoc);
+    res.status(200).json({ post: postViewModel });
+  } catch (error) {
+    res.status(404).json({
+      error: error instanceof Error ? error.message : 'Invalid input data',
+    });
+  }
+};
