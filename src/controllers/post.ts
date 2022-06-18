@@ -97,3 +97,23 @@ export const updatePost: RequestHandler<
     });
   }
 };
+
+export const deletePost: RequestHandler<
+  { id: string },
+  SingularPostResponse
+> = async (req, res) => {
+  const { id } = req.params;
+
+  try {
+    const postDoc = await PostModel.findByIdAndDelete(id);
+    if (postDoc === null) {
+      throw new Error(`No post with ID'${id}' can be found.`);
+    }
+    const postViewModel = createPostViewModel(postDoc);
+    res.status(200).json({ post: postViewModel });
+  } catch (error) {
+    res.status(404).json({
+      error: error instanceof Error ? error.message : 'There was an error while trying to delete that post.',
+    });
+  }
+};
