@@ -1,5 +1,7 @@
 import { RequestHandler } from 'express';
-import PostModel from '../models/post';
+import { Error } from 'mongoose';
+import PostModel, { PostDocument } from '../models/post';
+// import ErrorResponseBody from '../types/custom';
 import createPostViewModel, { PostViewModel } from '../view-model-creators/create-post-view-model';
 
 // type SingularPostResponse = { post: PostViewModel } | ErrorResponseBody;
@@ -27,4 +29,30 @@ export const getPosts: RequestHandler<
   // }
 
   res.status(200).json({ posts });
+};
+
+export const getPost: RequestHandler<
+  { id: string },
+  { post: PostViewModel } | ErrorResponseBody,
+  unknown,
+  { populate?: string }
+> = async (req, res) => {
+  const { id } = req.params;
+  // const { populate } = req.query;
+  // const shouldPopulateCategories = populate === 'categories';
+
+  try {
+    const postDoc = await PostModel.findById(id);
+
+    if (postDoc === null) {
+      throw new Error(`No post with ID'${id}' can be found.`);
+    }
+    const post = createPostViewModel(postDoc as PostDocument);
+
+    res.status(200).json({ post });
+  } catch (error) {
+    res.status(404).json({
+      error: `No post with ID'${id}' can be found.`,
+    });
+  }
 };
