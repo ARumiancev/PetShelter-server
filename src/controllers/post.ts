@@ -1,10 +1,10 @@
 import { RequestHandler } from 'express';
 import { Error } from 'mongoose';
-import PostModel, { PostDocument } from '../models/post';
+import PostModel, { PostDocument, PostProps } from '../models/post';
 // import ErrorResponseBody from '../types/custom';
 import createPostViewModel, { PostViewModel } from '../view-model-creators/create-post-view-model';
 
-// type SingularPostResponse = { post: PostViewModel } | ErrorResponseBody;
+type SingularPostResponse = { post: PostViewModel } | ErrorResponseBody;
 
 export const getPosts: RequestHandler<
   unknown,
@@ -54,5 +54,22 @@ export const getPost: RequestHandler<
     res.status(404).json({
       error: `No post with ID'${id}' can be found.`,
     });
+  }
+};
+
+export const createPost: RequestHandler<
+  unknown,
+  SingularPostResponse,
+  PostProps
+> = async (req, res) => {
+  const postProps = req.body;
+  try {
+    // const uniqCategoriesIds = await validateCategoriesIds(sculptureProps.categories);
+    // postProps.categories = uniqCategoriesIds;
+    const postDoc = await PostModel.create(postProps);
+    const postViewModel = createPostViewModel(postDoc);
+    res.status(201).json({ post: postViewModel });
+  } catch (err) {
+    res.status(400).json({ error: 'Server error' });
   }
 };
