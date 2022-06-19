@@ -1,20 +1,20 @@
 import mongoose, {
   Model, Types, Document, Schema,
 } from 'mongoose';
-import { User } from './user-model';
+// import { User } from './user-model';
 
 export type Post = {
   petName: string,
-  author?: User,
+  author?: string,
   description: string,
-  picURL: string,
+  picURL?: string,
   createdAt: string,
   updatedAt: string,
 };
 
 export type PostProps = Omit<Post, 'createdAt' | 'updatedAt'>;
 
-type PostModelType = Model<Post, unknown>;
+// type PostModelType = Model<Post, unknown>;
 
 export type PostDocument = Document<
   Types.ObjectId,
@@ -24,14 +24,15 @@ export type PostDocument = Document<
   _id: Types.ObjectId;
 };
 
-const postSchema: Schema = new Schema<Post, PostModelType>({
+const postSchema: Schema = new Schema<Post, Model<Post>>({
   petName: {
     type: String,
     required: true,
   },
   author: {
-    type: Schema.Types.ObjectId,
-    ref: 'User',
+    // type: Schema.Types.ObjectId,
+    // ref: 'User',
+    type: String,
     required: false,
   },
   description: {
@@ -40,7 +41,7 @@ const postSchema: Schema = new Schema<Post, PostModelType>({
   },
   picURL: {
     type: String,
-    required: true,
+    // required: true,
     // unique: true,
   },
 }, {
