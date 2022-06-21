@@ -41,7 +41,7 @@ const postSchema: Schema = new Schema<Post, Model<Post>>({
   },
   picURL: {
     type: String,
-    // required: true,
+    required: true,
     // unique: true,
   },
 }, {
