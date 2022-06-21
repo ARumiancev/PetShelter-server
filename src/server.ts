@@ -26,7 +26,7 @@ mongoose.connect(
   },
   (error) => {
     if (error) {
-      console.log(`Nepavyko Prisijungti:\n${error.message}`);
+      console.log(`Couldn't connect:\n${error.message}`);
       return;
     }
     console.log('Successfully connected to MongoDB');

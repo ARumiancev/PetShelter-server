@@ -1,7 +1,6 @@
 import { RequestHandler } from 'express';
 import { Error } from 'mongoose';
 import PostModel, { PostDocument, PostProps } from '../models/post';
-// import ErrorResponseBody from '../types/custom';
 import createPostViewModel, { PostViewModel } from '../view-model-creators/create-post-view-model';
 
 type PostResponseBody = { post: PostViewModel } | ErrorResponseBody;
@@ -12,21 +11,8 @@ export const getPosts: RequestHandler<
   unknown,
   { populate?: string }
 > = async (req, res) => {
-  // const { populate } = req.query;
-
-  // const shouldPopulateCategories = populate === 'categories';
-
-  // const posts: PostViewModel[];
-
-  // if (shouldPopulateCategories) {
-  //   const sculpturePopulatedDocs = await SculptureModel
-  //     .find()
-  //     .populate<{ categories: CategoryDocument[] }>('categories');
-  //   sculptures = sculpturePopulatedDocs.map(createSculpturePopulatedViewModel);
-  // } else {
   const postDocs = await PostModel.find();
   const posts: PostViewModel[] = postDocs.map(createPostViewModel);
-  // }
 
   res.status(200).json({ posts });
 };
@@ -38,8 +24,6 @@ export const getPost: RequestHandler<
   { populate?: string }
 > = async (req, res) => {
   const { id } = req.params;
-  // const { populate } = req.query;
-  // const shouldPopulateCategories = populate === 'categories';
 
   try {
     const postDoc = await PostModel.findById(id);
@@ -64,8 +48,6 @@ export const createPost: RequestHandler<
 > = async (req, res) => {
   const postProps = req.body;
   try {
-    // const uniqCategoriesIds = await validateCategoriesIds(sculptureProps.categories);
-    // postProps.categories = uniqCategoriesIds;
     const postDoc = await PostModel.create(postProps);
     const postViewModel = createPostViewModel(postDoc);
     res.status(201).json({ post: postViewModel });
@@ -83,8 +65,6 @@ export const updatePost: RequestHandler<
   const postProps = req.body;
 
   try {
-    // const uniqCategoriesIds = await validateCategoriesIds(sculptureProps.categories);
-    // sculptureProps.categories = uniqCategoriesIds;
     const postDoc = await PostModel.findByIdAndUpdate(id, postProps, { new: true });
     if (postDoc === null) {
       throw new Error(`No post with ID'${id}' can be found.`);
