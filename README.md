@@ -37,3 +37,8 @@ This is a server for a mock pet shelter. I used the MERN stack (MongoDB, Express
 
     npm start - launch development server
     npm build - compile app
+
+## .env variables I used for testing purposes:
+
+DB_CONNECTION_URL=mongodb+srv://admin:Vilnius123@database.vwv7kl4.mongodb.net
+TOKEN_SECRET=1f2060e5ab5b9bc37d14ab2787f115c4e924f3c79a9ccbc5e2d8df290dac322c
