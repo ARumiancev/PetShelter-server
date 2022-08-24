@@ -23,18 +23,17 @@ This is a server for a mock pet shelter. I used the MERN stack (MongoDB, Express
   *  Node.js
 
 ## Project instructions:
-
   *  Rename src/config/.env.example file to .env
   *  Define variables:
-    *   DB_CONNECTION_UR= (MongoDB database connection URL)
-    *   TOKEN_SECRET= (unique token key)
+    * DB_CONNECTION_UR= (MongoDB database connection URL)
+    * TOKEN_SECRET= (unique token key)
     * Clone Front-end of the application and follow instructions in README.md file: 
       * [Front-end of the app](https://github.com/ARumiancev/PetShelter-FE)
 
 ## Instalation
   *  npm i
 
-Project scripts
+## Project scripts
 
     npm start - launch development server
     npm build - compile app
